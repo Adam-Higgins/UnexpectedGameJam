@@ -6,30 +6,49 @@ public class ArcherController : MonoBehaviour
 {
     public GameObject target;
     private bool targetLocked;
+    public GameObject Archer;
+    public GameObject ArrowSpawnPoint;
 
     public float fireTimer;
-    private bool shotReady;
+    public bool shotReady;
+    private bool canShoot = false;
     public GameObject arrow;
+
+    void Start()
+    {
+        shotReady = false;
+    }
 
     void Update()
     {
         if (targetLocked)
         {
-            transform.LookAt(target.transform);
-            transform.Rotate(0, 90, 0);
+            Archer.transform.LookAt(target.transform);
+            Archer.transform.Rotate(0, 90, 0);
         }
-
-        if (shotReady)
+        if (canShoot)
         {
-            shoot();
+            if (shotReady)
+            {
+                shoot();
+            }
         }
 
     }
 
+
     void shoot()
     {
         Transform _arrow = Instantiate(arrow.transform, transform.position, Quaternion.identity);
-        _arrow.transform.rotation = transform.rotation;
+        _arrow.transform.rotation = ArrowSpawnPoint.transform.rotation;
+        shotReady = false;
+        StartCoroutine(fireRate());
+    }
+
+    IEnumerator fireRate()
+    {
+        yield return new WaitForSeconds(fireTimer);
+        shotReady = true;
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,6 +57,19 @@ public class ArcherController : MonoBehaviour
         {
             target = other.gameObject;
             targetLocked = true;
+            shotReady = true;
+            canShoot = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            target = other.gameObject;
+            targetLocked = false;
+            StopCoroutine(fireRate());
+            canShoot = false;
         }
     }
 }
