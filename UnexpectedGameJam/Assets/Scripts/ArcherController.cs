@@ -4,12 +4,40 @@ using UnityEngine;
 
 public class ArcherController : MonoBehaviour
 {
-    public Transform target;
+    public GameObject target;
+    private bool targetLocked;
+
+    public float fireTimer;
+    private bool shotReady;
+    public GameObject arrow;
 
     void Update()
     {
-        transform.LookAt(target);
+        if (targetLocked)
+        {
+            transform.LookAt(target.transform);
+            transform.Rotate(0, 90, 0);
+        }
 
-        transform.LookAt(target, Vector3.left);
+        if (shotReady)
+        {
+            shoot();
+        }
+
+    }
+
+    void shoot()
+    {
+        Transform _arrow = Instantiate(arrow.transform, transform.position, Quaternion.identity);
+        _arrow.transform.rotation = transform.rotation;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            target = other.gameObject;
+            targetLocked = true;
+        }
     }
 }
