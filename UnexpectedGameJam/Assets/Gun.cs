@@ -36,9 +36,16 @@ public class Gun : MonoBehaviour
     private void FireGun()
     {
         Ray ray = Camera.main.ViewportPointToRay(Vector3.one * 0.5f);
-
-        Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 10f);
-        //Ray ray = new Ray(firePoint.position, firePoint.forward);
+        for (int i = 0; i < 10; i++)
+        {
+            Debug.DrawRay(ray.origin, RotatePointAroundPivot(ray.direction, ray.origin, new Vector3(Random.Range(-0.5f,0.5f), Random.Range(-0.5f, 0.5f), 0)) * 100f, Color.red, 10f);
+        }
+        Debug.DrawRay(ray.origin, RotatePointAroundPivot(ray.direction,ray.origin, new Vector3(1f,1f,0)) * 100f , Color.red, 10f);
+       // Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 10f);
+      //  Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 10f);
+      //  Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 10f);
+     //   Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 10f);
+      //  Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 10f);
         RaycastHit hitInfo;
 
         muzzleFlash.Play();
@@ -47,5 +54,12 @@ public class Gun : MonoBehaviour
         {
             Debug.Log("Hit!");
         }
+    }
+    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        Vector3 dir = point - pivot; // get point direction relative to pivot
+        dir = Quaternion.Euler(angles) * dir; // rotate it
+        point = dir + pivot; // calculate rotated point
+        return point; // return it
     }
 }
