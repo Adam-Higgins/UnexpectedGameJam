@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     Quaternion characterTargetRotation;
     public float XSensitivity;
 
+    private int health;
+    public Vector3 playerStartPoint;
+
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -21,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
        characterTargetRotation = transform.rotation;
+        health = 5;
+        playerStartPoint = transform.position;
+
     }
 
     // Update is called once per frame
@@ -51,5 +58,24 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, newDirection, Time.deltaTime * turnSpeed);
         } */
 
+    }
+    public void Damage()
+    {
+        //print("Function Running");
+        // StartCoroutine("DamageCo");
+        health = health - 1;
+        print(("Health is", health));
+        Debug.Log(transform.position);
+
+        if (health < 1)
+        {
+            gameObject.SetActive(false);
+            print("The heavy is dead");
+            health = 5;
+            transform.position = playerStartPoint;
+            gameObject.SetActive(true);
+
+        }
+        //DamageCo();
     }
 }
