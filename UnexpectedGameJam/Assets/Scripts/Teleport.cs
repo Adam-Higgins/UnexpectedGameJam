@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-    public int Timer = 100;
+    public int Timer = 500;
     public int Choice;
     public float[] Position;
+    public int height;
 
 
     // Start is called before the first frame update
@@ -31,7 +32,7 @@ public class Teleport : MonoBehaviour
     {
         Choice = Random.Range(0, 4);
         Debug.Log("Yup");
-        Timer = 100;
-        transform.position = new Vector3(Position[Choice], 1, -Position[Choice]);
+        Timer = 500;
+        transform.position = new Vector3(Position[Choice], height, -Position[Choice]);
     }
 }
