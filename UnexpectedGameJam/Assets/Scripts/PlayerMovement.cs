@@ -12,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
     Quaternion characterTargetRotation;
     public float XSensitivity;
 
-    private int health;
+    private int maxHealth = 5;
+    public int currentHealth;
+    public HealthBar healthBar;
     public Vector3 playerStartPoint;
 
 
@@ -25,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
        characterTargetRotation = transform.rotation;
-        health = 5;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         playerStartPoint = transform.position;
 
     }
@@ -63,15 +66,17 @@ public class PlayerMovement : MonoBehaviour
     {
         //print("Function Running");
         // StartCoroutine("DamageCo");
-        health = health - 1;
-        print(("Health is", health));
+        currentHealth = currentHealth - 1;
+        healthBar.SetHealth(currentHealth);
+        print(("Health is", currentHealth));
         Debug.Log(transform.position);
 
-        if (health < 1)
+        if (currentHealth < 1)
         {
             gameObject.SetActive(false);
             print("The heavy is dead");
-            health = 5;
+            currentHealth = 5;
+            healthBar.SetHealth(currentHealth);
             transform.position = playerStartPoint;
             gameObject.SetActive(true);
 
