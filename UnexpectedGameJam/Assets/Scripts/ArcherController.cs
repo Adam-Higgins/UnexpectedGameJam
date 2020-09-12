@@ -27,6 +27,7 @@ public class ArcherController : MonoBehaviour
         if (targetLocked)
         {
             Archer.transform.LookAt(target.transform);
+            ArrowSpawnPoint.transform.LookAt(target.transform);
             Archer.transform.Rotate(0, 90, 0);
         }
         if (canShoot)
