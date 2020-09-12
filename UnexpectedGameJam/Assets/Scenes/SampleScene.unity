@@ -1312,6 +1312,11 @@ PrefabInstance:
       propertyPath: firePoint
       value: 
       objectReference: {fileID: 1145762749}
+    - target: {fileID: 5171869426829879739, guid: 1329b8ffb357f594d8e00448533bf0e7,
+        type: 3}
+      propertyPath: currWeapon
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5171869426829879743, guid: 1329b8ffb357f594d8e00448533bf0e7,
         type: 3}
       propertyPath: m_Name
