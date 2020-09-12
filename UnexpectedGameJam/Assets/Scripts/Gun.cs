@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -14,15 +15,27 @@ public class Gun : MonoBehaviour
 
     public enum Weapon { Shotgun, Deagle, Bible };
 
-    public Weapon currWeapon = Weapon.Deagle;
+    public Weapon currWeapon;
 
     public ParticleSystem muzzleFlash;
+
+    public Image gunIcon;
 
     [SerializeField]
     [Range(1, 10)]
     private int damage;
 
     private float timer;
+
+    public Sprite deagleSprite;
+    public Sprite shotgunSprite;
+    public Sprite bibleSprite;
+
+    void Start()
+    {
+        currWeapon = Weapon.Deagle;
+        gunIcon.sprite = deagleSprite;
+    }
 
     // Update is called once per frame
     void Update()
@@ -131,14 +144,17 @@ public class Gun : MonoBehaviour
             case Weapon.Shotgun:
                 fireRate = 1.5f;
                 currWeapon = Weapon.Shotgun;
+                gunIcon.sprite = shotgunSprite;
                 break;
             case Weapon.Deagle:
                 fireRate = 0.25f;
                 currWeapon = Weapon.Deagle;
+                gunIcon.sprite = deagleSprite;
                 break;
             case Weapon.Bible:
                 fireRate = 5.0f;
                 currWeapon = Weapon.Bible;
+                gunIcon.sprite = bibleSprite;
                 break;
             default:
                 break;
