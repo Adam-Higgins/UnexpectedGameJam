@@ -31,10 +31,20 @@ public class Gun : MonoBehaviour
     public Sprite shotgunSprite;
     public Sprite bibleSprite;
 
+    public GameObject Deagle;
+    public MeshRenderer deagleRender;
+    public GameObject Blunder;
+    public MeshRenderer blunderRender;
+    public GameObject Bible;
+    public MeshRenderer bibleRender;
+
     void Start()
     {
         currWeapon = Weapon.Deagle;
         gunIcon.sprite = deagleSprite;
+        deagleRender = Deagle.GetComponentInChildren<MeshRenderer>();
+        blunderRender = Blunder.GetComponentInChildren<MeshRenderer>();
+        bibleRender = Bible.GetComponentInChildren<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -154,16 +164,26 @@ public class Gun : MonoBehaviour
                 fireRate = 1.5f;
                 currWeapon = Weapon.Shotgun;
                 gunIcon.sprite = shotgunSprite;
+
+                bibleRender.enabled = false;
+                deagleRender.enabled = false;
+                blunderRender.enabled = true;
                 break;
             case Weapon.Deagle:
                 fireRate = 0.25f;
                 currWeapon = Weapon.Deagle;
                 gunIcon.sprite = deagleSprite;
+
+                bibleRender.enabled = false;
+                deagleRender.enabled = true;
+                blunderRender.enabled = false;
+
                 break;
             case Weapon.Bible:
                 fireRate = 5.0f;
                 currWeapon = Weapon.Bible;
                 gunIcon.sprite = bibleSprite;
+
                 break;
             default:
                 break;
