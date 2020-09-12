@@ -11,20 +11,27 @@ public class FollowPlayer : MonoBehaviour
     public GameObject Player;
     private float Distance;
     private float timer;
-    NavMeshAgent nav;
+    private Animator animator;
+    public NavMeshAgent nav;
 
     public PlayerMovement thePlayerMovement;
+
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         timer = 3;
-        nav = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", nav.velocity.magnitude);
+
         Distance = Vector3.Distance(Enemy.transform.position, Player.transform.position);
         nav.SetDestination(target.position);
 
