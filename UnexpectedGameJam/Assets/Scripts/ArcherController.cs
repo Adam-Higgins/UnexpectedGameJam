@@ -10,9 +10,11 @@ public class ArcherController : MonoBehaviour
     public GameObject ArrowSpawnPoint;
 
     public float fireTimer;
-    public bool shotReady;
+    float timer = 0.0f;
+    public bool shotReady = false;
     private bool canShoot = false;
     public GameObject arrow;
+    public Animator animator;
 
     void Start()
     {
@@ -21,6 +23,7 @@ public class ArcherController : MonoBehaviour
 
     void Update()
     {
+        timer += Time.deltaTime * 0.1f;
         if (targetLocked)
         {
             Archer.transform.LookAt(target.transform);
@@ -33,32 +36,36 @@ public class ArcherController : MonoBehaviour
                 shoot();
             }
         }
+        fireRate();
 
     }
 
 
     void shoot()
     {
-        Transform _arrow = Instantiate(arrow.transform, transform.position, Quaternion.identity);
+        Transform _arrow = Instantiate(arrow.transform, ArrowSpawnPoint.transform.position, Quaternion.identity);
         _arrow.transform.rotation = ArrowSpawnPoint.transform.rotation;
         shotReady = false;
-        StartCoroutine(fireRate());
     }
 
-    IEnumerator fireRate()
+    void fireRate()
     {
-        yield return new WaitForSeconds(fireTimer);
-        shotReady = true;
+        //yield return new WaitForSeconds(fireTimer);
+       if (timer > fireTimer)
+        {
+            shotReady = true;
+            timer = 0.0f;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            target = other.gameObject;
             targetLocked = true;
             shotReady = true;
             canShoot = true;
+            animator.SetBool("Fire", true);
         }
     }
 
@@ -66,10 +73,9 @@ public class ArcherController : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            target = other.gameObject;
             targetLocked = false;
-            StopCoroutine(fireRate());
             canShoot = false;
+            animator.SetBool("Fire", false);
         }
     }
 }

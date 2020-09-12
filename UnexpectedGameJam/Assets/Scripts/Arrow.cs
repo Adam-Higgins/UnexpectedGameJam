@@ -9,6 +9,6 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed);               
+        transform.Translate(Vector3.up * Time.deltaTime * movementSpeed);               
     }
 }

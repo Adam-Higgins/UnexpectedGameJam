@@ -105,7 +105,11 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, 50))
         {
-            Debug.Log("Hit!");
+            // Debug.Log("Hit!");
+            if (hitInfo.collider.tag == "Enemy")
+            {
+                hitInfo.collider.gameObject.GetComponent<EnemyHealth>().LoseHealth(25);
+            }
         }
     }
 
@@ -126,7 +130,12 @@ public class Gun : MonoBehaviour
         {
             if (Physics.Raycast(shotgunRays[i], out shotgunHits[i], 8f))
             {
-                Debug.Log("Hit!");
+                //Debug.Log("Hit!");
+                if (shotgunHits[i].collider.tag == "Enemy")
+                {
+                    shotgunHits[i].collider.gameObject.GetComponent<EnemyHealth>().LoseHealth(10);
+
+                }
             }
         }
 
