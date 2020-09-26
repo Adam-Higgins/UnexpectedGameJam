@@ -32,5 +32,6 @@ public class FollowMouseCamera : MonoBehaviour
         yaw += vertical;
         yaw = Mathf.Clamp(yaw,-30,30);
         transform.LookAt(new Vector3(target.transform.forward.x * 100,(target.transform.forward.y * 100) + yaw, target.transform.forward.z * 100));
+
     }
 }

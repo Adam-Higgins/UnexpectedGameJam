@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
+        animator.SetInteger("Gun", 0);
     }
     // Start is called before the first frame update
     void Start()
@@ -41,25 +42,12 @@ public class PlayerMovement : MonoBehaviour
         Vector3 frd = vertical * transform.forward;
         Vector3 rgt = horizontal * transform.right;
 
-
-
-        //characterTargetRotation *= Quaternion.Euler(0f, Input.GetAxis("Mouse X") * XSensitivity, 0f);
-       // transform.rotation = characterTargetRotation;
-
         var movement = (frd + rgt);
 
 
         characterController.SimpleMove(movement * Time.deltaTime * moveSpeed);
 
         animator.SetFloat("Speed", movement.magnitude);
-
-
-        /*if (movement.magnitude > 0)
-        {
-            Quaternion newDirection = Quaternion.LookRotation(movement);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, newDirection, Time.deltaTime * turnSpeed);
-        } */
 
     }
     public void Damage()
@@ -78,10 +66,10 @@ public class PlayerMovement : MonoBehaviour
             currentHealth = 5;
             healthBar.SetHealth(currentHealth);
             transform.position = playerStartPoint;
+            animator.SetInteger("Gun", 0);
             gameObject.SetActive(true);
 
         }
-        //DamageCo();
     }
 
 }

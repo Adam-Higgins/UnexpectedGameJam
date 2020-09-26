@@ -9,6 +9,8 @@ public class Gun : MonoBehaviour
     [Range(0.1f, 2)]
     private float fireRate = 1;
 
+    private Animator animator;
+
     [SerializeField]
     private Transform firePoint;
 
@@ -17,7 +19,9 @@ public class Gun : MonoBehaviour
 
     public Weapon currWeapon;
 
-    public ParticleSystem muzzleFlash;
+    public ParticleSystem muzzleFlashBlunder;
+
+    public ParticleSystem muzzleFlashDeagle;
 
     public Image gunIcon;
 
@@ -32,20 +36,22 @@ public class Gun : MonoBehaviour
     public Sprite bibleSprite;
 
     public GameObject Deagle;
-    public MeshRenderer deagleRender;
     public GameObject Blunder;
-    public MeshRenderer blunderRender;
     public GameObject Bible;
-    public MeshRenderer bibleRender;
 
     void Start()
     {
         currWeapon = Weapon.Deagle;
         gunIcon.sprite = deagleSprite;
-        deagleRender = Deagle.GetComponentInChildren<MeshRenderer>();
-        blunderRender = Blunder.GetComponentInChildren<MeshRenderer>();
-        bibleRender = Bible.GetComponentInChildren<MeshRenderer>();
+
+        Deagle.SetActive(true);
+        Blunder.SetActive(false);
+
+        animator = GetComponentInChildren<Animator>();
+
+        ChangeGun(Weapon.Deagle);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -111,7 +117,7 @@ public class Gun : MonoBehaviour
 
         RaycastHit hitInfo;
 
-        muzzleFlash.Play();
+        muzzleFlashDeagle.Play();
 
         if (Physics.Raycast(ray, out hitInfo, 50))
         {
@@ -128,7 +134,7 @@ public class Gun : MonoBehaviour
         Ray[] shotgunRays = new Ray[10];
         RaycastHit[] shotgunHits = new RaycastHit[10];
 
-        muzzleFlash.Play();
+        muzzleFlashBlunder.Play();
 
         shotgunRays[0] = Camera.main.ViewportPointToRay(Vector3.one * 0.5f);
         for (int i = 1; i < 10; i++)
@@ -165,18 +171,18 @@ public class Gun : MonoBehaviour
                 currWeapon = Weapon.Shotgun;
                 gunIcon.sprite = shotgunSprite;
 
-                bibleRender.enabled = false;
-                deagleRender.enabled = false;
-                blunderRender.enabled = true;
+                animator.SetInteger("Gun", 1);
+                Deagle.SetActive(false);
+                Blunder.SetActive(true);
                 break;
             case Weapon.Deagle:
                 fireRate = 0.25f;
                 currWeapon = Weapon.Deagle;
                 gunIcon.sprite = deagleSprite;
 
-                bibleRender.enabled = false;
-                deagleRender.enabled = true;
-                blunderRender.enabled = false;
+                animator.SetInteger("Gun", 0);
+                Deagle.SetActive(true);
+                Blunder.SetActive(false);
 
                 break;
             case Weapon.Bible:
